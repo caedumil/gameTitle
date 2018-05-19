@@ -82,5 +82,6 @@ class NDS():
     @bannerTitle.setter
     def bannerTitle(self, title):
         bTitle = title.decode('utf-16').strip('\x00')
-        title, subTitle, _ = bTitle.split('\n')
-        self.__bannerTitle = '{} - {}'.format(title, subTitle)
+        title = bTitle.split('\n')
+        title.pop()
+        self.__bannerTitle = ' - '.join(title)
