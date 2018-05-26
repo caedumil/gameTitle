@@ -6,21 +6,18 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-class GB():
+from .base import Platform
+
+
+class GB(Platform):
     def __init__(self):
-        self.__headerOffset = 0x100
-        self.__headerSize = 80
+        super().__init__(
+            offset = 0x100,
+            size = 80
+        )
         self.__header = None
         self.__title = None
         self.__code = None
-
-    @property
-    def headerOffset(self):
-        return self.__headerOffset
-
-    @property
-    def headerSize(self):
-        return self.__headerSize
 
     @property
     def header(self):

@@ -6,21 +6,18 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-class GBA():
+from .base import Platform
+
+
+class GBA(Platform):
     def __init__(self):
-        self.__headerOffset = 0x00
-        self.__headerSize = 192
+        super().__init__(
+            offset=0x00,
+            size=192
+        )
         self.__header = None
         self.__title = None
         self.__code = None
-
-    @property
-    def headerOffset(self):
-        return self.__headerOffset
-
-    @property
-    def headerSize(self):
-        return self.__headerSize
 
     @property
     def header(self):
@@ -33,9 +30,8 @@ class GBA():
     @property
     def title(self):
         if not self.__title:
-            size = 0x0C
             start = 0xA0
-            end = start + size
+            end = 0xAC
             title = self.__header[start:end]
             self.__title = title.decode().strip('\x00')
         return self.__title
@@ -43,9 +39,8 @@ class GBA():
     @property
     def code(self):
         if not self.__code:
-            size = 0x04
             start = 0xAC
-            end = start + size
+            end = 0xB0
             code = self.__header[start:end]
             self.__code = code.decode().strip('\x00')
         return self.__code
