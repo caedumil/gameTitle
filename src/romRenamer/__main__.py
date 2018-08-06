@@ -26,9 +26,8 @@ def main():
         romsList.extend(tmp)
 
     romsInfo = [header.readHeader(x) for x in romsList]
-    romsInfo = [x for x in romsInfo if x]
 
-    for i in romsInfo:
+    for i in [x for x in romsInfo if x]:
         print(i.title)
 
     return 0
