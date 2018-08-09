@@ -6,15 +6,41 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
+from collections import namedtuple
+
+
+memLocation = namedtuple('Mem', ['start', 'end', 'size'])
+romInfo = namedtuple('ROM', ['header', 'title', 'code'])
+
+
 class Platform():
-    def __init__(self, offset=0x00, size=00):
-        self.__headerOffset = offset
-        self.__headerSize = size
+    def __init__(self, header, title, code):
+        self.__header = header
+        self.__title = title
+        self.__code = code
 
     @property
-    def headerOffset(self):
-        return self.__headerOffset
+    def header(self):
+        return self.__header
 
     @property
-    def headerSize(self):
-        return self.__headerSize
+    def title(self):
+        return self.__title
+
+    @property
+    def code(self):
+        return self.__code
+
+    def readHeader(self, data):
+        data.seek(self.__header.start)
+        header = data.read(self.__header.size)
+
+        bTitle = header[self.__title.start:self.__title.end]
+        title = bTitle.decode().strip('\x00')
+        if self.__code.start:
+            bCode = header[self.__code.start:self.__code.end]
+            code = bCode.decode().strip('\x00')
+        else:
+            code = None
+
+        return romInfo(header, title, code)

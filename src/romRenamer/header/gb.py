@@ -6,36 +6,12 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-from .base import Platform
+from .base import memLocation, Platform
 
 
 class GB(Platform):
     def __init__(self):
-        super().__init__(
-            offset = 0x100,
-            size = 80
-        )
-        self.__header = None
-        self.__title = None
-        self.__code = None
-
-    @property
-    def header(self):
-        return self.__header
-
-    @header.setter
-    def header(self, header):
-        self.__header = header
-
-    @property
-    def title(self):
-        if not self.__title:
-            start = 0x34
-            end = 0x43
-            title = self.__header[start:end]
-            self.__title = title.decode().strip('\x00')
-        return self.__title
-
-    @property
-    def code(self):
-        return self.__code
+        header = memLocation(0x100, None, 80)
+        title = memLocation(0x34, 0x43, None)
+        code = memLocation(None, None, None)
+        super().__init__(header, title, code)

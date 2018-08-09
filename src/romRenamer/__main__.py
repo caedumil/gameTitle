@@ -25,10 +25,10 @@ def main():
             tmp = [path]
         romsList.extend(tmp)
 
-    romsInfo = [header.readHeader(x) for x in romsList]
+    romsInfo = [header.readROM(x) for x in romsList]
 
     for i in [x for x in romsInfo if x]:
-        print(i.title)
+        print(i)
 
     return 0
 

@@ -8,73 +8,30 @@
 
 from sys import byteorder
 
-from .base import Platform
+from .base import memLocation, Platform
 
 
 class NDS(Platform):
     def __init__(self):
-        super().__init__(
-            offset = 0x00,
-            size = 512
+        header = memLocation(0x00, None, 512)
+        title = memLocation(0x00, 0x0C, None)
+        code = memLocation(0x0C, 0x10, None)
+        super().__init__(header, title, code)
+        self.__banner = memLocation(0x68, 0x6C, None)
+        self.__titleExtended = memLocation(0x340, 0x440, 256)
+
+    def readBanner(self, data):
+        header, *_  = self.readHeader(data)
+        bannerSegment = int.from_bytes(
+            header[self.__banner.start:self.__banner.end],
+            byteorder=byteorder
         )
-        self.__header = None
-        self.__title = None
-        self.__code = None
-        self.__bannerOffset = None
-        self.__bannerTitleOffset = 0x340
-        self.__bannerTitleSize = 256
-        self.__bannerTitle = None
 
-    @property
-    def header(self):
-        return self.__header
-
-    @header.setter
-    def header(self, header):
-        self.__header = header
-
-    @property
-    def title(self):
-        if not self.__title:
-            start = 0x00
-            end = 0x0C
-            title = self.__header[start:end]
-            self.__title = title.decode().strip('\x00')
-        return self.__title
-
-    @property
-    def code(self):
-        if not self.__code:
-            start = 0x0C
-            end = 0x10
-            code = self.__header[start:end]
-            self.__code = code.decode().strip('\x00')
-        return self.__code
-
-    @property
-    def bannerOffset(self):
-        if not self.__bannerOffset:
-            start = 0x68
-            end = 0x6C
-            offset = self.__header[start:end]
-            self.__bannerOffset = int.from_bytes(offset, byteorder=byteorder)
-        return self.__bannerOffset
-
-    @property
-    def bannerTitleOffset(self):
-        return self.__bannerTitleOffset
-
-    @property
-    def bannerTitleSize(self):
-        return self.__bannerTitleSize
-
-    @property
-    def bannerTitle(self):
-        return self.__bannerTitle
-
-    @bannerTitle.setter
-    def bannerTitle(self, title):
-        bTitle = title.decode('utf-16').strip('\x00')
+        data.seek(bannerSegment + self.__titleExtended.start)
+        block = data.read(self.__titleExtended.size)
+        bTitle = block.decode('utf-16').strip('\x00')
         title = bTitle.split('\n')
         title.pop()
-        self.__bannerTitle = ' - '.join(title)
+
+        return ' - '.join(title)
+
