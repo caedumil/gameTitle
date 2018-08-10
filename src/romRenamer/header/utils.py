@@ -22,13 +22,13 @@ extensionMapping = {
 }
 
 
-def readROM(romFile):
+def read(romFile):
     _, ext = splitext(romFile)
-    with open(romFile, 'rb') as rom:
-        gameSystem = extensionMapping.get(ext)
-        if not gameSystem:
-            return None
+    gameSystem = extensionMapping.get(ext)
+    if not gameSystem:
+        return None
 
+    with open(romFile, 'rb') as rom:
         gs = gameSystem()
         headerInfo = gs.readHeader(rom)
 
