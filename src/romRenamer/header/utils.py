@@ -12,13 +12,17 @@ from .gb import GB
 from .gbc import GBC
 from .gba import GBA
 from .nds import NDS
+from .n64 import N64
+from .ngc import NGC
 
 
 extensionMapping = {
     '.gb': GB,
     '.gbc': GBC,
     '.gba': GBA,
-    '.nds': NDS
+    '.nds': NDS,
+    '.z64': N64,
+    '.iso': NGC
 }
 
 
