@@ -1,6 +1,6 @@
 # Copyright (C) 2018 Carlos Millett
 #
-# This file is part of romRenamer.
+# This file is part of gameTitle.
 #
 # This software may be modified and distributed under the terms
 # of the MIT license.  See the LICENSE file for details.
@@ -12,7 +12,7 @@ from . import __version__
 
 
 def setParser():
-    parser = argparse.ArgumentParser(prog='romRenamer')
+    parser = argparse.ArgumentParser(prog='gameTitle')
     parser.add_argument(
         '-v',
         '--version',

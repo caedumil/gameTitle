@@ -14,12 +14,12 @@ def _read(fn):
 
 
 setup(
-    name='romRenamer',
+    name='gameTitle',
     version='0.0.0-dev',
 
     description='A utility to rename ROM game files.',
     long_description=_read('README.md'),
-    url='https://github.com/caedus75/RomRenamer',
+    url='https://github.com/caedus75/gameTitle',
 
     author='Carlos Millett',
     author_email='carlos4735@gmail.com',
@@ -32,7 +32,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'romRenamer = romRenamer.__main__:main',
+            'gameTitle = gameTitle.__main__:main',
         ],
     },
 
