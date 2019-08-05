@@ -15,3 +15,13 @@ class NGC(Platform):
         title = memLocation(0x0020, 0x03FF, None)
         code = memLocation(0x0000, 0x0003, None)
         super().__init__(header, title, code)
+
+    @staticmethod
+    def test(data):
+        magicWord = 'C2 33 9F 3D'
+        wordOffset = memLocation(0x001C, 0x001F, 4)
+
+        data.seek(wordOffset.start)
+        block = data.read(wordOffset.size)
+        dvdMagicWord = bytes.fromhex(magicWord)
+        return dvdMagicWord.find(block) == 0

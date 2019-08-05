@@ -9,38 +9,45 @@
 from collections import namedtuple
 
 
-memLocation = namedtuple('Mem', ['start', 'end', 'size'])
-romInfo = namedtuple('ROM', ['header', 'title', 'code'])
+memLocation = namedtuple('MemOffset', ['start', 'end', 'size'])
 
 
 class Platform():
-    def __init__(self, header, title, code):
-        self.__header = header
-        self.__title = title
-        self.__code = code
+    def __init__(self, headerOffset, titleOffset, codeOffset):
+        self.__headerOffset = headerOffset
+        self.__titleOffset = titleOffset
+        self.__codeOffset = codeOffset
+        self.__romHeader = None
+        self.__gameTitle = None
+        self.__gameCode = None
 
     @property
-    def header(self):
-        return self.__header
+    def romHeader(self):
+        return self.__romHeader
 
     @property
-    def title(self):
-        return self.__title
+    def gameTitle(self):
+        if not self.__gameTitle:
+            bTitle = self.__romHeader[self.__titleOffset.start:self.__titleOffset.end]
+            self.__gameTitle = bTitle.decode().strip('\x00')
+        return self.__gameTitle
 
     @property
-    def code(self):
-        return self.__code
-
-    def readHeader(self, data):
-        data.seek(self.__header.start)
-        header = data.read(self.__header.size)
-
-        bTitle = header[self.__title.start:self.__title.end]
-        title = bTitle.decode().strip('\x00')
-        if self.__code.start:
-            bCode = header[self.__code.start:self.__code.end]
+    def gameCode(self):
+        if self.__codeOffset.start and not self.__gameCode:
+            bCode = self.__romHeader[self.__codeOffset.start:self.__codeOffset.end]
             code = bCode.decode().strip('\x00')
-        else:
-            code = None
+        return self.__gameCode
 
-        return romInfo(header, title, code)
+    def init(self, data):
+        data.seek(self.__headerOffset.start)
+        header = data.read(self.__headerOffset.size)
+        self.__romHeader = header
+
+    @staticmethod
+    def test(data):
+        raise NotImplementedError()
+
+
+class UnknownPlatformError(Exception):
+    pass

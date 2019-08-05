@@ -6,4 +6,4 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-from .utils import extensionMapping, read
+from .utils import read

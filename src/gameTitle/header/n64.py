@@ -15,3 +15,13 @@ class N64(Platform):
         title = memLocation(0x20, 0x34, None)
         code = memLocation(None, None, None)
         super().__init__(header, title, code)
+
+    @staticmethod
+    def test(data):
+        value = '80 37 12 40'
+        offset = memLocation(0x00, 0x03, 4)
+
+        data.seek(offset.start)
+        block = data.read(offset.size)
+        value = bytes.fromhex(value)
+        return value.find(block) == 0
