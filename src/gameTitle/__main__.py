@@ -14,6 +14,7 @@ from . import header
 
 
 def main():
+    exitCode = 0
     parser = cli.setParser()
     args = parser.parse_args()
 
@@ -25,12 +26,18 @@ def main():
             tmp = [path]
         romsList.extend(tmp)
 
-    romsInfo = [header.read(x) for x in romsList]
+    for rom in romsList:
+        try:
+            title = header.read(rom)
 
-    for i in [x for x in romsInfo if x]:
-        print(i)
+        except OSError as err:
+            exitCode = 1
+            title = err.strerror
 
-    return 0
+        finally:
+            print(title)
+
+    return exitCode
 
 
 if __name__ == '__main__':
