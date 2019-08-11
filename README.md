@@ -8,3 +8,6 @@ Currently support:
 - GBC (Gameboy Color)
 - GBA (Gameboy Advance)
 - NDS (Nintendo DS)
+
+- N64 (Nintendo 64)
+- NGC (Nintendo GameCube)
