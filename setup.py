@@ -30,11 +30,9 @@ setup(
 
     package_dir={'': 'src'},
 
-    entry_points={
-        'console_scripts': [
-            'gameTitle = gameTitle.__main__:main',
-        ],
-    },
+    scripts=[
+        'bin/gameTitle'
+    ],
 
     keywords='utility rename rom games',
 
