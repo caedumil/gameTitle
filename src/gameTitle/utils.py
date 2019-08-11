@@ -6,24 +6,16 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-from os.path import splitext
-
-from .base import UnknownPlatformError
-from .gb import GB
-from .gbc import GBC
-from .gba import GBA
-from .nds import NDS
-from .n64 import N64
-from .ngc import NGC
+from . import header
 
 
 SYSTEMS = [
-    GB,
-    GBC,
-    GBA,
-    NDS,
-    N64,
-    NGC
+    header.GB,
+    header.GBC,
+    header.GBA,
+    header.NDS,
+    header.N64,
+    header.NGC
 ]
 
 
@@ -31,7 +23,7 @@ def match(data):
     for system in SYSTEMS:
         if system.test(data):
             return system()
-    raise UnknownPlatformError('ROM not supported')
+    raise header.UnknownPlatformError('ROM not supported')
 
 
 def read(romFile):
@@ -39,7 +31,7 @@ def read(romFile):
         try:
             gs = match(rom)
 
-        except UnknownPlatformError as err:
+        except header.UnknownPlatformError as err:
             return '{} - {}'.format(romFile, err)
 
         gs.init(rom)

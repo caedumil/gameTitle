@@ -6,4 +6,10 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-from .utils import read
+from .base import UnknownPlatformError
+from .gb import GB
+from .gbc import GBC
+from .gba import GBA
+from .nds import NDS
+from .n64 import N64
+from .ngc import NGC
