@@ -32,6 +32,20 @@ Address Bytes Expl.
 Note: With all entry points, the CPU is initially set into system mode.
 
 
+## 004h..09Fh - Nintendo Logo, 156 Bytes
+
+Contains the Nintendo logo which is displayed during the boot procedure.
+Cartridge won't work if this data is missing or modified.
+
+In detail: This area contains Huffman compression data (but excluding the
+compression header which is hardcoded in the BIOS, so that it'd be probably
+not possible to hack the GBA by producing de-compression buffer overflows).
+
+A copy of the compression data is stored in the BIOS, the GBA will compare
+this data and lock-up itself if the BIOS data isn't exactly the same as in the
+cartridge (or multiboot header).
+
+
 ## 0A0h - Game Title, Uppercase Ascii, max 12 characters
 
 Space for the game title, padded with 00h (if less than 12 chars).

@@ -25,6 +25,17 @@ each cartridge. It contains the following values:
 ```
 
 
+## 0104-0133 - Nintendo Logo
+
+These bytes define the bitmap of the Nintendo logo that is displayed when the
+gameboy gets turned on.
+
+The gameboys boot procedure verifies the content of this bitmap (after it has
+displayed it), and LOCKS ITSELF UP if these bytes are incorrect. A CGB verifies
+only the first 18h bytes of the bitmap, but others (for example a pocket
+gameboy) verify all 30h bytes.
+
+
 ## 0134-0143 - Title
 
 Title of the game in UPPER CASE ASCII. If it is less than 16 characters then
