@@ -1,6 +1,6 @@
-# RomRenamer
+# gameTitle
 
-Utility to rename rom files using the information found on the rom's header.
+Utility to extract the game title from the ROM header.
 
 Currently support:
 
