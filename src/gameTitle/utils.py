@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Carlos Millett
+# Copyright (C) 2018, 2019 Carlos Millett
 #
 # This file is part of gameTitle.
 #
