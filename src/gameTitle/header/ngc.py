@@ -10,6 +10,9 @@ from .base import memLocation, Platform
 
 
 class NGC(Platform):
+    """
+    Nintendo GameCube class.
+    """
     def __init__(self):
         header = memLocation(0x0000, None, 1087)
         title = memLocation(0x0020, 0x03FF, None)
@@ -17,7 +20,13 @@ class NGC(Platform):
         super().__init__(header, title, code)
 
     @staticmethod
-    def test(data):
+    def test(data: 'file obj') -> 'bool':
+        """
+        Check ROM header for the DVD Magic Word at address 0x01C.
+
+        :param data: ROM file obj.
+        :returns: True if NGC game ROM.
+        """
         magicWord = 'C2 33 9F 3D'
         wordOffset = memLocation(0x001C, 0x001F, 4)
 

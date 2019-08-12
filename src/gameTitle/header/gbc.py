@@ -11,6 +11,9 @@ from .gb import GB
 
 
 class GBC(Platform):
+    """
+    Gameboy Color class.
+    """
     def __init__(self):
         header = memLocation(0x100, None, 80)
         title = memLocation(0x34, 0x3F, None)
@@ -18,7 +21,14 @@ class GBC(Platform):
         super().__init__(header, title, code)
 
     @staticmethod
-    def test(data):
+    def test(data: 'file obj') -> 'bool':
+        """
+        Check ROM header for the logo at address 0x104 and CGB flag at address
+        0x143.
+
+        :param data: ROM file obj.
+        :returns: True if GBC game ROM.
+        """
         logo = (
             'CE ED 66 66 CC 0D 00 0B 03 73 00 83 '
             '00 0C 00 0D 00 08 11 1F 88 89 00 0E'

@@ -19,14 +19,27 @@ SYSTEMS = [
 ]
 
 
-def match(data):
+def match(data: 'file obj') -> 'ROM obj':
+    """
+    Match given file to a ROM type.
+
+    :param data: ROM file object.
+    :returns: specific ROM class object.
+    :raises UnknownPlatformError: matching failed.
+    """
     for system in SYSTEMS:
         if system.test(data):
             return system()
     raise header.UnknownPlatformError('ROM not supported')
 
 
-def read(romFile):
+def read(romFile: 'str') -> 'str':
+    """
+    Open ROM file to read the title from the header.
+
+    :param romFile: ROM file path.
+    :returns: title
+    """
     with open(romFile, 'rb') as rom:
         try:
             gs = match(rom)

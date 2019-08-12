@@ -13,7 +13,15 @@ memLocation = namedtuple('MemOffset', ['start', 'end', 'size'])
 
 
 class Platform():
-    def __init__(self, headerOffset, titleOffset, codeOffset):
+    """
+    Base class for ROM type classes.
+    """
+    def __init__(
+        self,
+        headerOffset: 'memOffset',
+        titleOffset: 'memOffset',
+        codeOffset: 'memOffset'
+    ):
         self.__headerOffset = headerOffset
         self.__titleOffset = titleOffset
         self.__codeOffset = codeOffset
@@ -39,15 +47,28 @@ class Platform():
             code = bCode.decode().strip('\x00')
         return self.__gameCode
 
-    def init(self, data):
+    def init(self, data: 'file obj'):
+        """
+        Extract header from file.
+
+        :param data: ROM file obj.
+        """
         data.seek(self.__headerOffset.start)
         header = data.read(self.__headerOffset.size)
         self.__romHeader = header
 
     @staticmethod
-    def test(data):
+    def test(data: 'file obj') -> 'bool':
+        """
+        Check ROM header for specific data.
+
+        :param data: ROM file obj.
+        :returns: whether the header is of the ROM type.
+        """
         raise NotImplementedError()
 
 
 class UnknownPlatformError(Exception):
-    pass
+    """
+    Raised when Rom header can't be matched against supported types
+    """
