@@ -6,8 +6,6 @@
 # of the MIT license.  See the LICENSE file for details.
 
 
-from sys import byteorder
-
 from .base import memLocation, Platform
 
 
@@ -35,7 +33,7 @@ class NDS(Platform):
         super().init(data)
         bannerSegment = int.from_bytes(
             self.romHeader[self.__bannerOffset.start:self.__bannerOffset.end],
-            byteorder=byteorder
+            byteorder='little'
         )
         data.seek(bannerSegment + self.__extendedTitleOffset.start)
         banner = data.read(self.__extendedTitleOffset.size)
